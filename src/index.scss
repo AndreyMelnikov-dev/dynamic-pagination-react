@@ -22,9 +22,18 @@ img {
 .catalog {
     width: 400px;
     margin: 40px auto;
+    display: grid;
+    gap: 40px;
     &__list {
         display: grid;
-        gap: 40px;
+        gap: 20px;
+    }
+    &__pagination {
+        width: 100%;
+        display: inline-grid;
+        gap: 10px;
+        grid-auto-flow: column;
+        justify-content: start;
     }
 }
 
@@ -33,9 +42,9 @@ img {
     border: 1px solid rgb(221, 221, 221);
     border-radius: 20px;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 10px;
     display: grid;
-    gap: 20px;
+    gap: 10px;
     &__img {
         width: 100%;
         display: block;
@@ -43,5 +52,27 @@ img {
         object-fit: cover;
         height: 200px;
     }
-    &__title {}
+    &__title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500;
+    }
+}
+
+.pagination-bullet {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(221, 221, 221);
+    box-sizing: border-box;
+    transition-duration: 300ms;
+    transition-property: color background-color;
+    &.active {
+        background-color: red;
+        color: #FFF;
+        background-color: rgb(221, 221, 221);
+    }
 }

@@ -10,7 +10,7 @@ function App() {
         <Route path='/' element={<ProjectNavigation />} />
         <Route path='/scroll' element={<ProjectNavigation />} />
         <Route path='/interval' element={<ProjectNavigation />} />
-        <Route path='/simple' element={<SimplePagination />} />
+        <Route path='/simple/:id' element={<SimplePagination />} />
       </Routes>
     </div>
   );
