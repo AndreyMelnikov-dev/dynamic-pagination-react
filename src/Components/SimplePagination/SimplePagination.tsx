@@ -1,39 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router'
 import Item from '../Item/Item'
 import PaginationBullet from '../PaginationBullet/PaginationBullet'
-import photosApi from '../../http/photos-api'
 import IPhoto from '../../models/IPhoto'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store/store'
+import { fetchPhotos } from '../../store/photos-slice'
 
 const SimplePagination = () => {
+    const dispatch = useDispatch<AppDispatch>()
+    const pageId = useParams().id || '1'
 
-    const pageId = useParams().id
-    const [photos, setPhotos] = useState<Array<IPhoto>>([])
-    const [isLoading, setLoading] = useState<boolean>(true)
-    const [totalCount, setTotalCount] = useState<number>(0)
+    const photosState = useSelector((state: RootState) => state.photos)
 
     useEffect(() => {
-        getPhotos()
+        dispatch(fetchPhotos(pageId))
     }, [pageId])
 
-    const getPhotos = async () => {
-        setLoading(true)
-        const photosData: null | IPhoto[] = await photosApi.getPhotos(pageId)
-        if (photosData == null) {
-            setPhotos([])
-        }
-        else {
-            setPhotos([...photosData])
-        }
-        setLoading(false)
-    }
-
-    const photosList = photos.map((item: IPhoto) => <Item key={item.id} {...item} />)
+    const photosList = photosState.photos.map((item: IPhoto) => <Item key={item.id} {...item} />)
 
     return (
         <div className='catalog'>
             <div className='catalog__list'>
-                {photosList.length ? photosList : 'Nothing'}
+                {photosState.isLoading ? 'Loading...' : photosList}
+                {/* {photosList.length ? photosList : 'Nothing'} */}
             </div>
             <div className='catalog__pagination'>
                 <PaginationBullet>1</PaginationBullet>
