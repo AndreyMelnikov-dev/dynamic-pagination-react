@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
 import Item from '../Item/Item'
-import PaginationBullet from '../PaginationBullet/PaginationBullet'
 import IPhoto from '../../models/IPhoto'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store/store'
 import { fetchPhotos } from '../../store/photos-slice'
+import CatalogPagination from './CatalogPagination/CatalogPagination'
 
 const SimplePagination = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -23,18 +23,8 @@ const SimplePagination = () => {
         <div className='catalog'>
             <div className='catalog__list'>
                 {photosState.isLoading ? 'Loading...' : photosList}
-                {/* {photosList.length ? photosList : 'Nothing'} */}
             </div>
-            <div className='catalog__pagination'>
-                <PaginationBullet>1</PaginationBullet>
-                <PaginationBullet>2</PaginationBullet>
-                <PaginationBullet>3</PaginationBullet>
-                <PaginationBullet>4</PaginationBullet>
-                <PaginationBullet>5</PaginationBullet>
-                <PaginationBullet>6</PaginationBullet>
-                <PaginationBullet>7</PaginationBullet>
-                <PaginationBullet>8</PaginationBullet>
-            </div>
+            <CatalogPagination total={photosState.totalCount} />
         </div>
     )
 }

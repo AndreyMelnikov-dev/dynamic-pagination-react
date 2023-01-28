@@ -30,9 +30,9 @@ img {
     }
     &__pagination {
         width: 100%;
-        display: inline-grid;
+        display: flex;
+        flex-wrap: wrap;
         gap: 10px;
-        grid-auto-flow: column;
         justify-content: start;
     }
 }
