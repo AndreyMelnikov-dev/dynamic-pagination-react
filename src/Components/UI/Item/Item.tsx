@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import IPhoto from '../../models/IPhoto'
+import IPhoto from '../../../models/IPhoto'
 
 
 

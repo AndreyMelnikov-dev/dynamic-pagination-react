@@ -6,19 +6,21 @@ interface IPhotosSlice {
     photos: IPhoto[]
     isLoading: boolean
     totalCount: number
+    limit: number
 }
 
 const initialState: IPhotosSlice = {
     photos: [] as IPhoto[],
     isLoading: true,
-    totalCount: 0
+    totalCount: 0,
+    limit: 5
 }
 
 export const fetchPhotos = createAsyncThunk(
     'photos/fetchPhotos',
     async (page: string, { rejectWithValue, dispatch }) => {
         dispatch(setLoading(true))
-        const photosFromApi = await photosApi.getPhotos(page)
+        const photosFromApi = await photosApi.getPhotos(page, initialState.limit)
         dispatch(setPhotos(photosFromApi.photos))
         dispatch(setTotal(photosFromApi.total))
         dispatch(setLoading(false))

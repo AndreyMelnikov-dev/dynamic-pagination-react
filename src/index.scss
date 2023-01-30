@@ -20,7 +20,7 @@ img {
 
 // catalog
 .catalog {
-    width: 400px;
+    width: 600px;
     margin: 40px auto;
     display: grid;
     gap: 40px;
@@ -32,8 +32,9 @@ img {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         gap: 10px;
-        justify-content: start;
+        font-size: 22px;
     }
 }
 

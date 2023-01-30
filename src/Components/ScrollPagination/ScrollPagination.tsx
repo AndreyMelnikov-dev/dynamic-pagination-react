@@ -7,7 +7,8 @@ import { AppDispatch, RootState } from '../../store/store'
 import { fetchPhotos } from '../../store/photos-slice'
 import CatalogPagination from '../UI/CatalogPagination/CatalogPagination'
 
-const SimplePagination = () => {
+const ScrollPagination = () => {
+    
     const dispatch = useDispatch<AppDispatch>()
     const pageId = useParams().id || '1'
 
@@ -24,9 +25,8 @@ const SimplePagination = () => {
             <div className='catalog__list'>
                 {photosState.isLoading ? 'Loading...' : photosList}
             </div>
-            <CatalogPagination activeId={parseInt(pageId)} total={photosState.totalCount / photosState.limit} />
         </div>
     )
 }
 
-export default SimplePagination
+export default ScrollPagination
