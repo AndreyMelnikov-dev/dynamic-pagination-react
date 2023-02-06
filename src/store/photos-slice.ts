@@ -14,14 +14,14 @@ const initialState: IPhotosSlice = {
     photos: [] as IPhoto[],
     isLoading: false,
     totalCount: 0,
-    limit: 5
+    limit: 10
 }
 
 export const fetchPhotos = createAsyncThunk(
     'photos/fetchPhotos',
     async (page: string, { dispatch }) => {
         dispatch(setLoading(true))
-        const photosFromApi = await photosApi.getPhotos(page, initialState.limit)
+        const photosFromApi = await photosApi.getPhotos(page, 10)
         dispatch(setPhotos(photosFromApi.photos))
         dispatch(setTotal(photosFromApi.total))
         dispatch(setLoading(false))
@@ -33,7 +33,7 @@ export const fetchPhotosInfinity = createAsyncThunk(
     async (page: string, { dispatch, getState }) => {
         const { photos }:any = getState()
         dispatch(setLoading(true))
-        const photosFromApi = await photosApi.getPhotos(page, initialState.limit)
+        const photosFromApi = await photosApi.getPhotos(page, 10)
         dispatch(setPhotos([...photos.photos, ...photosFromApi.photos]))
         dispatch(setTotal(photosFromApi.total))
         dispatch(setLoading(false))

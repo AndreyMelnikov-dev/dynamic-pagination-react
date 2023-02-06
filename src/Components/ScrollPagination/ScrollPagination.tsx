@@ -14,10 +14,7 @@ const ScrollPagination = () => {
     const [fetching, setFetching] = useState<boolean>(true)
 
     const scrollHandler = () => {
-        const offsetTop = window.pageYOffset
-        const windowHeight = window.innerHeight
-        const pageHeight = document.documentElement.scrollHeight
-        if (offsetTop + windowHeight > pageHeight - 50) {
+        if ((window.pageYOffset + window.innerHeight > document.documentElement.scrollHeight - 50) && photosState.photos.length < photosState.totalCount) {
             setFetching(true)
         }
     }
@@ -27,7 +24,7 @@ const ScrollPagination = () => {
         return () => {
             document.removeEventListener('scroll', scrollHandler)
         }
-    }, [])
+    }, [photosState.totalCount])
 
     useEffect(() => {
         if (fetching) {
@@ -36,6 +33,7 @@ const ScrollPagination = () => {
             setFetching(false)
         }
     }, [fetching])
+
 
     const photosList = photosState.photos.map((photo: IPhoto) => <Item key={photo.id} {...photo} />)
 
