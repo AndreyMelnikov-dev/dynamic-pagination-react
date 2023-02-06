@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store/store'
 import { fetchPhotos } from '../../store/photos-slice'
 import CatalogPagination from '../UI/CatalogPagination/CatalogPagination'
+import Preloader from '../UI/Preloader/Preloader'
 
 const SimplePagination = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -22,7 +23,7 @@ const SimplePagination = () => {
     return (
         <div className='catalog'>
             <div className='catalog__list'>
-                {photosState.isLoading ? 'Loading...' : photosList}
+                {photosState.isLoading ? <Preloader /> : photosList}
             </div>
             <CatalogPagination activeId={parseInt(pageId)} total={photosState.totalCount / photosState.limit} />
         </div>

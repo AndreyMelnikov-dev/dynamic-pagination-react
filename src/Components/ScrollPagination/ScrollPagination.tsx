@@ -1,30 +1,50 @@
-import { useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchPhotosInfinity } from '../../store/photos-slice'
+import { RootState, AppDispatch } from '../../store/store'
 import Item from '../UI/Item/Item'
+import Preloader from '../UI/Preloader/Preloader'
 import IPhoto from '../../models/IPhoto'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../store/store'
-import { fetchPhotos } from '../../store/photos-slice'
-import CatalogPagination from '../UI/CatalogPagination/CatalogPagination'
 
 const ScrollPagination = () => {
-    
-    const dispatch = useDispatch<AppDispatch>()
-    const pageId = useParams().id || '1'
 
+    const dispath = useDispatch<AppDispatch>()
     const photosState = useSelector((state: RootState) => state.photos)
+    const [actualPage, setActualPage] = useState<number>(1)
+    const [fetching, setFetching] = useState<boolean>(true)
+
+    const scrollHandler = () => {
+        const offsetTop = window.pageYOffset
+        const windowHeight = window.innerHeight
+        const pageHeight = document.documentElement.scrollHeight
+        if (offsetTop + windowHeight > pageHeight - 50) {
+            setFetching(true)
+        }
+    }
 
     useEffect(() => {
-        dispatch(fetchPhotos(pageId))
-    }, [pageId])
+        document.addEventListener('scroll', scrollHandler)
+        return () => {
+            document.removeEventListener('scroll', scrollHandler)
+        }
+    }, [])
 
-    const photosList = photosState.photos.map((item: IPhoto) => <Item key={item.id} {...item} />)
+    useEffect(() => {
+        if (fetching) {
+            dispath(fetchPhotosInfinity(actualPage.toString()))
+            setActualPage(prevState => prevState + 1)
+            setFetching(false)
+        }
+    }, [fetching])
+
+    const photosList = photosState.photos.map((photo: IPhoto) => <Item key={photo.id} {...photo} />)
 
     return (
         <div className='catalog'>
             <div className='catalog__list'>
-                {photosState.isLoading ? 'Loading...' : photosList}
+                {photosList}
             </div>
+            {photosState.isLoading && <Preloader />}
         </div>
     )
 }
