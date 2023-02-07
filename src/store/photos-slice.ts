@@ -14,7 +14,7 @@ const initialState: IPhotosSlice = {
     photos: [] as IPhoto[],
     isLoading: false,
     totalCount: 0,
-    limit: 10
+    limit: 100
 }
 
 export const fetchPhotos = createAsyncThunk(
